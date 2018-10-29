@@ -35,7 +35,7 @@
       if (document.images) {
         var avatar = new Image();
         avatar.src = '/imgs/avatar.jpg'
-        var previews = 'preview1.jpg,preview2.jpg,preview4.jpg'.split(',')
+        var previews = 'preview1.jpg,preview2.jpg,preview4.jpg,preview3.jpg,preview5.jpg'.split(',')
         var previewsPreLoad = []
         for(var i = 0; i < length; i++) {
           previewsPreLoad.push(new Image())
@@ -130,10 +130,21 @@
                 
                 
                 
-                <li class="">
-                    <a href="/tags">
+                <li class="dropdown">
+                    <!-- TODO 添加hover dropdown效果 -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hover="dropdown">
                         <i class="fa fa-tags"></i>标签
                     </a>
+                    <ul class="dropdown-menu">
+                        
+                        
+                        <li>
+                            <a href="/tags/hexo/">hexo</a>
+                        </li>
+                        
+                        
+                        
+                    </ul>
                 </li>
                 
                 
@@ -213,7 +224,7 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/10/28/hello-world/">Hello World</a>
+                    <a href="/2018/10/29/hexo/">用hexo搭建博客</a>
                 </span>
             </li>
             
@@ -235,7 +246,7 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/10/28/hello-world/">Hello World</a>
+                    <a href="/2018/10/29/hexo/">用hexo搭建博客</a>
                 </span>
             </li>
             
@@ -260,6 +271,8 @@
             <div class="tab-content">
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
+    <a href="/tags/hexo/" style="font-size: 8.399959494534954px;" class="tag-cloud-link">hexo</a>
+    
 </div>
                 <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
     
@@ -268,7 +281,7 @@
     </li>
     
     <li>
-        <a href="http://www.gal123.com/" target="_blank">绅士导航♂</a>
+        <a href="https://zuiacg.com/" target="_blank">绅士导航♂</a>
     </li>
     
     <li>
@@ -279,15 +292,15 @@
                 <div class="links tab-pane nav bs-sidenav fade" id="sidebar-links">
     
     <li>
-        <a href="https://github.com/ZEROKISEKI/" target="_blank">Github</a>
+        <a href="https://github.com/xizyy/" target="_blank">Github</a>
     </li>
     
     <li>
-        <a href="https://coding.net/u/SORA1" target="_blank">Coding</a>
+        <a href="https://www.freebuf.com/author/xizyyy" target="_blank">Freebuf</a>
     </li>
     
     <li>
-        <a href="https://www.zhihu.com/people/aonosora/activities" target="_blank">知乎</a>
+        <a href="https://twitter.com/xixy18?lang=en" target="_blank">twitter</a>
     </li>
     
 </div>
@@ -354,7 +367,7 @@
     window.slideConfig = {
       prefix: '/imgs/slide/background',
       ext: 'jpg',
-      maxCount: '6'
+      maxCount: '8'
     }
 </script>
 <script src="/js/hs.js"></script>
