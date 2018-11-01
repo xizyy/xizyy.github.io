@@ -139,15 +139,15 @@
                         
                         
                         <li>
+                            <a href="/tags/虚拟机/">虚拟机</a>
+                        </li>
+                        
+                        <li>
                             <a href="/tags/网络/">网络</a>
                         </li>
                         
                         <li>
                             <a href="/tags/hexo/">hexo</a>
-                        </li>
-                        
-                        <li>
-                            <a href="/tags/虚拟机/">虚拟机</a>
                         </li>
                         
                         
@@ -193,9 +193,9 @@
             <span class="label label-gal">
                 <i class="fa fa-tags"></i>
                 
-                <a href="/tags/网络/">网络</a>, 
+                <a href="/tags/虚拟机/">虚拟机</a>, 
                 
-                <a href="/tags/虚拟机/">虚拟机</a>
+                <a href="/tags/网络/">网络</a>
                 
             </span>
             
@@ -220,9 +220,9 @@
                 
                 <i class="fa fa-tags"></i>
                 
-                <a href="/tags/网络/">网络</a>, 
+                <a href="/tags/虚拟机/">虚拟机</a>, 
                 
-                <a href="/tags/虚拟机/">虚拟机</a>
+                <a href="/tags/网络/">网络</a>
                 
                 
                 
@@ -233,7 +233,7 @@
         <h1 id="虚拟机杂谈"><a href="#虚拟机杂谈" class="headerlink" title="虚拟机杂谈"></a>虚拟机杂谈</h1><p>本文主要涉及到虚拟机的原理及概念，有时候并不会一步一步截图说明如何操作，建议多自己动手验证，将更有助于理解。</p>
 <p>所以接下来的正如标题说，仅仅是个杂谈。（先别走啊！）</p>
 <p>虽说是杂谈，但是后面还是会说到vmware组网中一些有趣的地方。<br>算是对上一篇讲的网络原理的强化。</p>
-<h2 id="虚拟机的原理"><a href="#虚拟机的原理" class="headerlink" title="虚拟机的原理"></a>虚拟机的原理</h2><p>再次强调，这里的原理仅仅是一个笼统的概念上的东西。<br>那么开始吧。</p>
+<h2 id="虚拟机的原理"><a href="#虚拟机的原理" class="headerlink" title="虚拟机的原理"></a>虚拟机的原理</h2><p>再次强调，这里的虚拟机原理仅仅是一个笼统的概念上的东西。<br>那么开始吧。</p>
 <p>虚拟机的大概结构如下：</p>
 <p><img src="/img/vmware/Hyperviseur.png" alt=""></p>
 <p>网上一张很常见的图，被人贴了又贴。既然如此我也得贴上来。</p>
@@ -250,7 +250,7 @@
 <p>他们使用各自虚拟出来的网卡在虚拟机下的虚拟网络编辑器下即可以看到：<br><img src="/img/vmware/1.jpg" alt=""></p>
 <p>桥接模式使用VMnet0,仅主机模式使用VMnet1,NAT模式使用VMnet8。</p>
 <p>但是来看下这张图：<br><img src="/img/vmware/2.jpg" alt=""></p>
-<p>发现了吗，少了桥接模式的网卡VMnet0.<br>VMnet0哪去了？</p>
+<p>发现了吗，少了桥接模式的网卡VMnet0.<br>VMnet0哪去了？<br>继续往下看。</p>
 <h3 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h3><p>桥接模式，看名字就知道，虚拟机通过网桥来连接网络。但具体怎么桥接呢？来看下面这张图。<br><img src="/img/vmware/3" alt=""></p>
 <p>左边的实线框是宿主机，右边的虚线框是虚拟机。</p>
 <p>从图中可以很明显的看到，虚拟机在虚拟层模拟出一个VMware0网卡，这个网卡并不在宿主机内。网桥则从虚拟网卡桥接到物理网卡。也就是所有虚拟机系统连接在可以看作交换机的VMnet0网卡上，VMnet0网卡则与物理网卡桥接。</p>
@@ -263,9 +263,9 @@
 <h3 id="NAT模式"><a href="#NAT模式" class="headerlink" title="NAT模式"></a>NAT模式</h3><p>这个模式也十分有意思。</p>
 <p>当虚拟机设置为NAT模式，虚拟机与宿主机能够互相ping通。</p>
 <p>看上去好像没什么毛病，似乎是理所当然的是吧。</p>
-<p>但是，仔细想想，尼玛凭什么物理机能ping通虚拟机啊？这可是NAT模式啊！NAT模式！<br>什么是NAT模式，路由器就是使用的NAT模式。<br>在这个模式下，内网能主动ping通外网，但是外网无法ping通内网。<br>在这里物理机即是外网，虚拟机则是内网。物理网卡并不能看作路由，能看作路由的应该是虚拟机模拟出来的网卡。也就是说现在的情况相当与外网能直接ping通路由器下的内网主机！<br>原理就在下面：<br><img src="/img/vmware/5" alt=""></p>
-<p>这里可以看到虚拟机虚拟出了4样东西，其中有两个网卡。他们一个作为NAT设备，宿主机与虚拟机上都看不到这个网卡的存在。但是他作为虚拟机的网关，虚拟机与外界通信都要经由这里进行NAT转发。另一个网卡则是VMware8,他存在于我们的宿主机上，与虚拟机的虚拟交换机相连。</p>
-<p>那么问题来了，要这个VMware8何用，他即不是交换机也不是NAT设备。<br>其实这个VMware8就是宿主机能ping通虚拟机的原因。如果禁用这个虚拟网卡，那么当宿主机发出ping请求的时候会直接发给网关，因为虚拟机与自己不在同一个网段下。那么如果把虚拟机与宿主机放在同一个网段下呢？依然不行。虚拟机在NAT设备上限制了宿主机的访问。</p>
+<p>但是，仔细想想，尼玛凭什么物理机能ping通虚拟机啊？这可是NAT模式啊！NAT模式！<br>什么是NAT模式，路由器就是使用的NAT模式。<br>在这个模式下，内网能主动ping通外网，但是外网无法ping通内网。<br>在这里物理机即是外网，虚拟机则是内网。外网和内网之间需要一个NAT功能的路由器，而在这里充当路由器的并不是物理网卡。能看作路由的应该是虚拟机模拟出来的网卡。也就是说现在的情况相当与外网能直接ping通路由器下的内网主机！</p>
+<p>为什么呢，来看看下面的拓扑图：<br><img src="/img/vmware/5" alt=""></p>
+<p>这里可以看到虚拟机虚拟出了4样东西，其中有两个网卡。他们一个作为NAT设备，宿主机与虚拟机上都看不到这个网卡的存在。但是他作为虚拟机的网关，虚拟机与外界通信都要经由这里进行NAT转发。另一个网卡则是VMnet8,他存在于我们的宿主机上，与虚拟机的虚拟交换机相连。<br>如果要实现NAT模式，那么一个NAT设备，一个DHCP服务器，一个虚拟机交换机，已经足够实现了。<br>那么问题来了，要这个VMnet8何用，他即不是交换机也不是NAT设备。<br>其实这个VMware8就是宿主机能ping通虚拟机的原因。如果禁用这个虚拟网卡，那么当宿主机发出ping请求的时候会直接发给网关，因为虚拟机与自己不在同一个网段下，而网关并不认识NAT网段，会直接丢掉。那么如果把虚拟机与宿主机放在同一个网段下呢？理论上物理网卡应该会进行ARP询问NAT设备的MAC，而NAT设备直连物理网卡，那么也会收到ARP报文。但是依然不行。虚拟机在NAT设备上限制了宿主机的访问。<br>总之，当我们禁用这张VMnet8网卡后，宿主机将ping不通虚拟机，而虚拟机则不受影响。</p>
 <h5 id="可以看下面的验证过程："><a href="#可以看下面的验证过程：" class="headerlink" title="可以看下面的验证过程："></a>可以看下面的验证过程：</h5><p>1.不禁用VMware8网卡：<br><img src="/img/vmware/11.bmp" alt=""><br><img src="/img/vmware/7.bmp" alt=""><br><img src="/img/vmware/8.bmp" alt=""><br>虚拟机与宿主机可以互相ping通</p>
 <p>2.禁用VMware8网卡：<br><img src="/img/vmware/12.bmp" alt=""><br><img src="/img/vmware/9.bmp" alt=""><br><img src="/img/vmware/10.bmp" alt=""><br>虚拟机能ping通宿主机，宿主机ping不通虚拟机。<br>同时虚拟机还能上网：<br><img src="/img/vmware/13.bmp" alt=""></p>
 <p>所以VMware8其实就算禁用掉也不影响虚拟机上网，只是宿主机不能直接ping虚拟机。<br>所以结论就是VMnet8是宿主机主动与NAT虚拟机通信的链路！</p>
@@ -273,7 +273,7 @@
 <p>在Linux下我们可以通过配置iptable来转发物理网卡上收到的发往NAT虚拟机的数据包。只要将数据包转发到VMnet8网卡就可以实现桥接的虚拟机ping通NAT的虚拟机。注意，这里如果转发到NAT网卡是不行的！</p>
 <p>如果在windows如何实现iptable功能呢？只需要将VMnet8网卡共享给物理网卡就可以了。（注意，这里是VMnet8共享Internet给物理网卡，而不是反过来！）</p>
 <h3 id="仅主机模式"><a href="#仅主机模式" class="headerlink" title="仅主机模式"></a>仅主机模式</h3><p>仅主机模式相当于去掉了NAT的NAT模式。他的拓扑图如下：<br><img src="/img/vmware/6" alt=""></p>
-<p>上图可以看到他少了NAT设备。<br>缺少了NAT设备的结果就是不能连接外部网络，但是还可以和宿主机通信。<br>如果要在仅主机模式下实现与外界通信也很简单，有点类似上面，只需要将物理网卡共享Internet给VMnet1就可以了。<br>在理解了上面NAT模式的原理后，这里的原理自然也就知道了。</p>
+<p>上图可以看到他少了NAT设备。<br>缺少了NAT设备的结果就是不能连接外部网络，但是还可以和宿主机通信。<br>如果要在仅主机模式下实现与外界通信也很简单，有点类似上面，只需要将物理网卡共享Internet给VMnet1就可以了（是物理网卡共享给VMnet1,。共享的方向是很重要的，意味着不同的包转发模式）。<br>在理解了上面NAT模式的原理后，这里的原理自然也就知道了。</p>
 
     </div>
 </article>
@@ -367,7 +367,7 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/10/30/onlink/">你真的会配IP吗？</a>
+                    <a href="/2018/10/30/vmware/">虚拟机杂谈</a>
                 </span>
             </li>
             
@@ -379,7 +379,7 @@
             
             <li class="list-group-item">
                 <span class="post-title">
-                    <a href="/2018/10/30/vmware/">虚拟机杂谈</a>
+                    <a href="/2018/10/30/onlink/">你真的会配IP吗？</a>
                 </span>
             </li>
             
@@ -404,11 +404,11 @@
             <div class="tab-content">
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
     
-    <a href="/tags/网络/" style="font-size: 13.50358208270676px;" class="tag-cloud-link">网络</a>
+    <a href="/tags/虚拟机/" style="font-size: 16.58103135464299px;" class="tag-cloud-link">虚拟机</a>
     
-    <a href="/tags/hexo/" style="font-size: 10.321636066194067px;" class="tag-cloud-link">hexo</a>
+    <a href="/tags/网络/" style="font-size: 18.204057806910505px;" class="tag-cloud-link">网络</a>
     
-    <a href="/tags/虚拟机/" style="font-size: 8.625675927563538px;" class="tag-cloud-link">虚拟机</a>
+    <a href="/tags/hexo/" style="font-size: 8.610597946881285px;" class="tag-cloud-link">hexo</a>
     
 </div>
                 <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
